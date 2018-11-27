@@ -47,7 +47,20 @@ describe "Invoices API" do
     
     expect(invoice.status).to_not eq(previous_status)
     expect(invoice.status).to eq(invoice_params[:status])
-    
+  end
+
+  it "can destroy an existing item" do
+    invoice = create(:invoice)
+
+    expect(Invoice.count).to eq(1)
+
+    delete "/api/v1/invoices/#{invoice.id}"
+
+    expect(response).to be_successful
+
+    expect(Invoice.count).to eq(0)
+
+    expect{Invoice.find(invoice.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
 
 end
