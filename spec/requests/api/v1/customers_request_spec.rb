@@ -17,6 +17,22 @@ describe "Customers API" do
     
     get "/api/v1/customers/#{id}"
 
+    customer = JSON.parse(response.body)
+
     expect(response).to be_successful
+    expect(customer["id"]).to eq(id)
   end
+
+  it "can create a new customer" do
+    customer_params = {first_name: "Mary", last_name: "Sue"}
+
+    post "/api/v1/customers", params: {customer: customer_params}
+    
+    customer = Customer.last
+
+    expect(customer.first_name).to eq ("Mary")
+    expect(customer.last_name).to eq ("Sue")
+  end
+
+
 end
