@@ -9,6 +9,7 @@ class Api::V1::InvoicesController < ApplicationController
   end
 
   def create
+    render json: Invoice.create(invoice_params)
   end
 
   def update
@@ -20,7 +21,7 @@ class Api::V1::InvoicesController < ApplicationController
   private
 
   def invoice_params
-
+    params.require(:invoice).permit(:status)
   end
 
 end

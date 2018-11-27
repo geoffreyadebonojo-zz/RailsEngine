@@ -24,5 +24,15 @@ describe "Invoices API" do
     expect(invoice["id"]).to eq(id)
   end
 
+  it "can create a new invoice" do
+    invoice_params = {status: "shipped"}
+
+    post "/api/v1/invoices", params: {invoice: invoice_params}
+  
+    invoice = Invoice.last
+
+    expect(response).to be_successful
+    expect(invoice.status).to eq(invoice_params[:status])
+  end
 
 end
