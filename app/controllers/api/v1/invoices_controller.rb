@@ -13,6 +13,7 @@ class Api::V1::InvoicesController < ApplicationController
   end
 
   def update
+    render json: Invoice.update(params[:id], invoice_params)
   end
 
   def destroy

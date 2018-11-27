@@ -35,4 +35,19 @@ describe "Invoices API" do
     expect(invoice.status).to eq(invoice_params[:status])
   end
 
+  it "can update an existing item" do
+    id = create(:invoice).id
+    previous_status = Invoice.last.status
+    invoice_params = { status: "cancelled"}
+
+    put "/api/v1/invoices/#{id}", params: {invoice: invoice_params}
+    invoice = Invoice.find_by(id: id)
+    
+    expect(response).to be_successful
+    
+    expect(invoice.status).to_not eq(previous_status)
+    expect(invoice.status).to eq(invoice_params[:status])
+    
+  end
+
 end
