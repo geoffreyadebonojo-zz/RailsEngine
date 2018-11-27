@@ -12,6 +12,10 @@ class Api::V1::InvoiceItemsController < ApplicationController
     render json: InvoiceItem.create(invoice_item_params)
   end
 
+  def update
+    render json: InvoiceItem.update(params[:id], invoice_item_params)
+  end
+
   private
 
   def invoice_item_params
