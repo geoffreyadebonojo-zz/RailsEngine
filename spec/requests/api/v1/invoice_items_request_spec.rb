@@ -13,4 +13,17 @@ describe "InvoiceItems API" do
     
     expect(body.count).to eq(3)
   end
+
+  it "can show a single invoice item by id" do
+    id = create(:invoice_item).id
+
+    get "/api/v1/invoice_items/#{id}"
+
+    invoice_item = JSON.parse(response.body)
+
+    expect(response).to be_successful
+    expect(invoice_item["quantity"]).to eq(1)
+    expect(invoice_item["unit_price"]).to eq(100)    
+  end
+
 end
