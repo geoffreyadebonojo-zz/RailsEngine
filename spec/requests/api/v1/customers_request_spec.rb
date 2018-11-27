@@ -34,5 +34,24 @@ describe "Customers API" do
     expect(customer.last_name).to eq ("Sue")
   end
 
+  it "can update an existing customer" do
+    customer_params = {first_name: "James", last_name: "Bond"}
+
+    id = create(:customer).id
+    previous_first_name = Customer.last.first_name
+    previous_last_name = Customer.last.last_name
+
+    put "/api/v1/customers/#{id}", params: {customer: customer_params}
+    
+    customer = Customer.find_by(id: id)
+
+    expect(response).to be_successful
+
+    expect(customer.first_name).to_not eq(previous_first_name)
+    expect(customer.first_name).to eq("James")
+
+    expect(customer.last_name).to_not eq(previous_last_name)
+    expect(customer.last_name).to eq("Bond")
+  end
 
 end

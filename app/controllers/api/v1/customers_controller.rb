@@ -12,6 +12,10 @@ class Api::V1::CustomersController < ApplicationController
     render json: Customer.create(customer_params)
   end
 
+  def update
+    render json: Customer.update(params[:id], customer_params)
+  end
+
   private
 
   def customer_params
