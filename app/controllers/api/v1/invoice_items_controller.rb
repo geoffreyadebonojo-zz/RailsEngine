@@ -16,6 +16,10 @@ class Api::V1::InvoiceItemsController < ApplicationController
     render json: InvoiceItem.update(params[:id], invoice_item_params)
   end
 
+  def destroy
+    InvoiceItem.delete(params[:id])
+  end
+
   private
 
   def invoice_item_params

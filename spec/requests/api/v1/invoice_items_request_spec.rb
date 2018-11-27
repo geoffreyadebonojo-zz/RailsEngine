@@ -58,4 +58,19 @@ describe "InvoiceItems API" do
 
   end
 
+  it "can destroy an existing resource" do
+    invoice_item = create(:invoice_item)
+
+    expect(InvoiceItem.count).to eq(1)
+
+    delete "/api/v1/invoice_items/#{invoice_item.id}"
+
+    expect(response).to be_successful
+
+    expect(InvoiceItem.count).to eq(0)
+
+    expect{ InvoiceItem.find(invoice_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+
+  end
+
 end
