@@ -54,4 +54,13 @@ describe "Customers API" do
     expect(customer.last_name).to eq("Bond")
   end
 
+  it "can destroy a customer" do
+    id = create(:customer).id
+    expect(Customer.count).to eq(1)
+    
+    delete "/api/v1/customers/#{id}"
+    expect(Customer.count).to eq(0)
+    
+  end
+
 end
