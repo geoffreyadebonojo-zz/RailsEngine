@@ -6,7 +6,8 @@ describe "Customers API" do
 
     get "/api/v1/customers" 
 
-    customers = JSON.parse(response.body)
+    body = JSON.parse(response.body)
+    customers = body["data"]
 
     expect(response).to be_successful
     expect(customers.count).to eq(3)
