@@ -26,4 +26,18 @@ describe "InvoiceItems API" do
     expect(invoice_item["unit_price"]).to eq(100)    
   end
 
+  it "can create an item" do
+    invoice_item_params = { quantity: 1, unit_price: 100 }
+
+    post "/api/v1/invoice_items", params: {invoice_item: invoice_item_params}
+
+    invoice_item = InvoiceItem.last
+
+    expect(response).to be_successful
+
+    expect(invoice_item.quantity).to eq(invoice_item_params[:quantity])
+    expect(invoice_item.unit_price).to eq(invoice_item_params[:unit_price])
+
+  end
+
 end
