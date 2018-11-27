@@ -9,8 +9,9 @@ describe "Items API" do
 
     expect(response).to be_successful
 
-    items = JSON.parse(response.body)
-
+    body = JSON.parse(response.body)
+    items = body["data"]
+    
     expect(items.count).to eq(3)
   end
 
@@ -20,14 +21,15 @@ describe "Items API" do
 
     get "/api/v1/items/#{id}"
 
-    item = JSON.parse(response.body)
-
+    body = JSON.parse(response.body)
+    item = body["data"]
     expect(response).to be_successful
-    expect(item["id"]).to eq(id)
+    expect(item["id"]).to eq(id.to_s)
   end
 
   it "can create a new item" do
-    item_params = {name: "Saw", description: "Its a scary flick"}
+    id = create(:merchant).id
+    item_params = {name: "Saw", description: "Its a scary flick", unit_price: 4000, merchant_id: id}
 
     post "/api/v1/items", params: {item: item_params}
     item = Item.last

@@ -3,6 +3,8 @@ class CreateItems < ActiveRecord::Migration[5.2]
     create_table :items do |t|
       t.string :name
       t.text :description
+      t.string :unit_price
+      t.references :merchant
 
       t.timestamps
     end
