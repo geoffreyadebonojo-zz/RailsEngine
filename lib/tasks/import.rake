@@ -24,7 +24,8 @@ namespace :import do
       puts "customer #{first_name} #{last_name} - #{customer.errors.full_messages}" if customer.errors.any?
       customers_counter += 1 if customer.persisted?
     end
-    Customer.first.destroy
+    # Customer.first.destroy
+    puts "Imported #{customers_counter} customers"
 
     CSV.foreach(merchants) do |row|
       id, name, created_at, updated_at = row
@@ -32,15 +33,17 @@ namespace :import do
       puts "merchant #{id} - #{merchant.errors.full_messages}" if merchant.errors.any?
       merchants_counter += 1 if merchant.persisted?
     end
-    Merchant.first.destroy
-
+    # Merchant.first.destroy
+    puts "Imported #{merchants_counter} merchants"
+    
     CSV.foreach(invoices) do |row|
       id, customer_id, merchant_id, status, created_at, updated_at = row
       invoice = Invoice.create(id: id, customer_id: customer_id, merchant_id: merchant_id, status: status, created_at: created_at, updated_at: updated_at)
       puts "invoice #{id} - #{invoice.errors.full_messages}" if invoice.errors.any?
       invoices_counter += 1 if invoice.persisted?
     end
-    Invoice.first.destroy
+    # Invoice.first.destroy
+    puts "Imported #{invoices_counter} invoices"
 
     CSV.foreach(items) do |row|
       id, name, description, unit_price, merchant_id, created_at, updated_at = row
@@ -48,7 +51,8 @@ namespace :import do
       puts "item #{id} - #{item.errors.full_messages}" if item.errors.any?
       items_counter += 1 if item.persisted?
     end
-    Item.first.destroy
+    # Item.first.destroy
+    puts "Imported #{items_counter} items"
 
     CSV.foreach(invoice_items) do |row|
       id, item_id, invoice_id, quantity, unit_price, created_at, updated_at = row
@@ -56,22 +60,18 @@ namespace :import do
       puts "invoice_item #{id} - #{invoice_item.errors.full_messages}" if invoice_item.errors.any?
       invoice_items_counter += 1 if invoice_item.persisted?
     end
-    InvoiceItem.first.destroy
+    # InvoiceItem.first.destroy
+    puts "Imported #{invoice_items_counter} invoice items"
 
     CSV.foreach(transactions) do |row|
-      id, item_id, invoice_id, quantity, unit_price, created_at, updated_at = row
-      transaction = Transaction.create(id: id, invoice_id: invoice_id, credit_card_number: credit_card_number, credit_card_expiration_date: credit_card_expiration_date, result: result, created_at: created_at, updated_at: updated_at)
+      id, invoice_id, credit_card_number, credit_card_expiration_date, result, created_at, updated_at = row
+      transaction = Transaction.create(id: id, invoice_id: invoice_id, credit_card_number: rand(0000_0000_0000_0000..9999_9999_9999_9999).to_s.rjust(16, "0"), credit_card_expiration_date: rand(000..999).to_s.rjust(3, "0"), result: result, created_at: created_at, updated_at: updated_at)
       puts "#{id} - #{transaction.errors.full_messages}" if transaction.errors.any?
       transactions_counter += 1 if transaction.persisted?
     end
-    Transaction.first.destroy
+    # Transaction.first.destroy
 
-
-    puts "Imported #{customers_counter} customers"
-    puts "Imported #{merchants_counter} merchants"
-    puts "Imported #{invoices_counter} invoices"
-    puts "Imported #{items_counter} items"
-    puts "Imported #{invoice_items_counter} invoice items"
     puts "Imported #{transactions_counter} transactions"
+
   end
 end
