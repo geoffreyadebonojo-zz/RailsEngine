@@ -27,7 +27,7 @@ describe "Items API" do
     expect(item["id"]).to eq(id.to_s)
   end
 
-  it "can create a new item" do
+  xit "can create a new item" do
     id = create(:merchant).id
     item_params = {name: "Saw", description: "Its a scary flick", unit_price: 4000, merchant_id: id}
 
@@ -38,7 +38,7 @@ describe "Items API" do
     expect(item.name).to eq(item_params[:name])
   end
 
-  it "can update an existing item" do
+ xit "can update an existing item" do
     id = create(:item).id
     previous_name = Item.last.name
     item_params = { name: "Hammer" } 
@@ -51,7 +51,7 @@ describe "Items API" do
     expect(item.name).to eq("Hammer")
   end
 
-  it "can destroy an item" do
+  xit "can destroy an item" do
     item = create(:item)
 
     expect(Item.count).to eq(1)
