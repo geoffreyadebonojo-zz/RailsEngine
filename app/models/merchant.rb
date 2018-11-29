@@ -3,14 +3,12 @@ class Merchant < ApplicationRecord
   has_many :items
   has_many :invoices
 
-  def revenue
-    m = merchant.invoices.where(status: "shipped").pluck(:id)
-
-    x = InvoiceItem.find(m).pluck(:unit_price, :quantity)
-
-    z = x.map do |y|
-      (y[0] * y[1]).to_f / 100
-    end.sum
+  def self.most_revenue
+    select('merchants.*, 
+    SUM(invoice_items.quantity * invoice_items.unit_price) AS total_sold')
+    .joins(invoices: [:invoice_items, :transactions])
+    .group(:id)
+    .order('total_sold DESC')
   end
 
 end

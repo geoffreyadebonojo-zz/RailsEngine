@@ -87,4 +87,35 @@ describe "Merchant API" do
     expect(data.first["id"]).to eq(merchant.id.to_s)
   end
 
+  it "can find merchant by created_at" do
+    merchant = create(:merchant, name: "Mart", created_at: "2012-03-27T14:53:59.000Z")
+
+    expect(Merchant.count).to eq(1)
+
+    get "/api/v1/merchants/find?created_at=#{merchant.created_at}"
+
+    data = JSON.parse(response.body)["data"]
+
+    expect(response).to be_successful
+    expect(data.count).to eq(1)
+    expect(data.first["id"]).to eq(merchant.id.to_s)
+    expect(data.first["attributes"]["created_at"]).to eq("2012-03-27T14:53:59.000Z")    
+  end
+
+  it "can find merchant by updated_at" do
+    merchant = create(:merchant, name: "Mart", updated_at: "2012-03-27T14:53:59.000Z")
+
+    expect(Merchant.count).to eq(1)
+
+    get "/api/v1/merchants/find?updated_at=#{merchant.updated_at}"
+
+    data = JSON.parse(response.body)["data"]
+    # binding.pry
+    expect(response).to be_successful
+    expect(data.count).to eq(1)
+    expect(data.first["id"]).to eq(merchant.id.to_s)
+    expect(data.first["attributes"]["updated_at"]).to eq("2012-03-27T14:53:59.000Z")
+  end
+
+
 end

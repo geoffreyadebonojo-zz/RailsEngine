@@ -21,14 +21,7 @@ class MerchantSerializer
   end
 
   attribute :total_revenue do |merchant|
-    
-    m = merchant.invoices.where(status: "shipped").pluck(:id)
-
-    x = InvoiceItem.find(m).pluck(:unit_price, :quantity)
-
-    z = x.map do |y|
-      (y[0] * y[1]).to_f / 100
-    end.sum
+    merchant.
   end
 
 end
