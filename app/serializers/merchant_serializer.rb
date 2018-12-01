@@ -21,7 +21,7 @@ class MerchantSerializer
   end
 
   attribute :total_revenue do |merchant|
-    merchant.
+    merchant.total_revenue
   end
 
 end

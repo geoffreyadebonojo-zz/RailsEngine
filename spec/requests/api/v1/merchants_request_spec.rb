@@ -110,7 +110,6 @@ describe "Merchant API" do
     get "/api/v1/merchants/find?updated_at=#{merchant.updated_at}"
 
     data = JSON.parse(response.body)["data"]
-    # binding.pry
     expect(response).to be_successful
     expect(data.count).to eq(1)
     expect(data.first["id"]).to eq(merchant.id.to_s)
