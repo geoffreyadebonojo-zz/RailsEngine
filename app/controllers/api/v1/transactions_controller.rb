@@ -3,8 +3,13 @@ class Api::V1::TransactionsController < ApplicationController
   def index
     if params.nil?
       render json: TransactionSerializer.new(Transaction.all)
-    elsif params["invoice_id"]
-      render json: TransactionSerializer.new(Transaction.where(invoice_id: params["invoice_id"]))
+    elsif params[:invoice_id]
+      render json: TransactionSerializer.new(Transaction.where(invoice_id: params[:invoice_id]))
+    elsif params[:customer_id]
+      # TODO Review this
+      id = Customer.find(params[:customer_id]).id
+      invoice_id = Invoice.where(customer_id: id)
+      render json: TransactionSerializer.new(Transaction.where(invoice_id: invoice_id))
     end
   end
 
