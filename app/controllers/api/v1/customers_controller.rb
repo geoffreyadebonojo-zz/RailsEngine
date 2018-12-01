@@ -1,7 +1,7 @@
 class Api::V1::CustomersController < ApplicationController
   
   def index
-    if params.nil?
+    if params.nil? && params[:invoice_id].nil?
       render json: CustomerSerializer.new(Customer.all)
     elsif params[:invoice_id]
       id = Invoice.find(params[:invoice_id]).customer_id

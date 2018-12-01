@@ -1,10 +1,13 @@
 class Api::V1::InvoiceItemsController < ApplicationController
 
   def index
-    if params.nil?
+    binding.pry
+    if params.nil? && params[:invoice_id].nil?
       render json: InvoiceItemSerializer.new(InvoiceItem.all)
-    elsif params["invoice_id"]
-      render json: InvoiceItemSerializer.new(InvoiceItem.where(invoice_id: params["invoice_id"]))
+    elsif params[:invoice_id]
+      render json: InvoiceItemSerializer.new(InvoiceItem.where(invoice_id: params[:invoice_id]))
+    elsif params[:item_id]
+      render json: InvoiceItemSerializer.new(InvoiceItem.where(item_id: params[:item_id]))
     end
   end
 

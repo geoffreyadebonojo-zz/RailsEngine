@@ -1,7 +1,7 @@
 class Api::V1::ItemsController < ApplicationController
 
   def index
-    if params.nil?
+    if params[:merchant_id].nil? && params[:invoice_id].nil? && params[:invoice_item_id].nil?
       render json: ItemSerializer.new(Item.all)
     elsif params[:merchant_id]
       render json: ItemSerializer.new(Item.where(merchant_id: params[:merchant_id]))
