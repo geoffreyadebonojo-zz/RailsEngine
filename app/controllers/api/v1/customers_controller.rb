@@ -1,7 +1,12 @@
 class Api::V1::CustomersController < ApplicationController
   
   def index
-    render json: CustomerSerializer.new(Customer.all)
+    if params.nil?
+      render json: CustomerSerializer.new(Customer.all)
+    elsif params[:invoice_id]
+      id = Invoice.find(params[:invoice_id]).customer_id
+      render json: CustomerSerializer.new(Customer.find(id))
+    end
   end
 
   def show
