@@ -1,7 +1,6 @@
 class Api::V1::InvoiceItemsController < ApplicationController
 
   def index
-    binding.pry
     if params.nil? && params[:invoice_id].nil?
       render json: InvoiceItemSerializer.new(InvoiceItem.all)
     elsif params[:invoice_id]

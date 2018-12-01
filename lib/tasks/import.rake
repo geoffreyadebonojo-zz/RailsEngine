@@ -18,59 +18,47 @@ namespace :import do
     merchants = File.join Rails.root, "merchants.csv"
     transactions = File.join Rails.root, "transactions.csv"
     
-    CSV.foreach(customers) do |row|
-      id, first_name, last_name, created_at, updated_at = row
-      customer = Customer.create(id: id, first_name: first_name, last_name: last_name, created_at: created_at, updated_at: updated_at)
-      puts "customer #{first_name} #{last_name} - #{customer.errors.full_messages}" if customer.errors.any?
-      customers_counter += 1 if customer.persisted?
+    CSV.foreach(customers, headers: true) do |row|
+      attempt = Customer.create!(row.to_hash)
+      customers_counter += 1 if attempt.persisted?
     end
+    puts "Imported #{customers_counter} customers"
 
-    puts "Imported #{customers_counter - 1} customers"
 
-    CSV.foreach(merchants) do |row|
-      id, name, created_at, updated_at = row
-      merchant = Merchant.create(id: id, name: name, created_at: created_at, updated_at: updated_at)
-      puts "merchant #{id} - #{merchant.errors.full_messages}" if merchant.errors.any?
+    CSV.foreach(merchants, headers: true) do |row|
+      merchant = Merchant.create!(row.to_hash)
       merchants_counter += 1 if merchant.persisted?
     end
-    
     puts "Imported #{merchants_counter} merchants"
     
-    CSV.foreach(invoices) do |row|
-      id, customer_id, merchant_id, status, created_at, updated_at = row
-      invoice = Invoice.create(id: id, customer_id: customer_id, merchant_id: merchant_id, status: status, created_at: created_at, updated_at: updated_at)
-      puts "invoice #{id} - #{invoice.errors.full_messages}" if invoice.errors.any?
+    
+    CSV.foreach(invoices, headers: true) do |row|
+      invoice = Invoice.create!(row.to_hash)
       invoices_counter += 1 if invoice.persisted?
     end
-    
     puts "Imported #{invoices_counter} invoices"
+    
 
-    CSV.foreach(items) do |row|
-      id, name, description, unit_price, merchant_id, created_at, updated_at = row
-      item = Item.create(id: id, name: name, description: description, unit_price: unit_price, merchant_id: merchant_id, created_at: created_at, updated_at: updated_at)
-      puts "item #{id} - #{item.errors.full_messages}" if item.errors.any?
+    CSV.foreach(items, headers: true) do |row|
+      item = Item.create!(row.to_hash)
       items_counter += 1 if item.persisted?
     end
-    
     puts "Imported #{items_counter} items"
+    
 
-    CSV.foreach(invoice_items) do |row|
-      id, item_id, invoice_id, quantity, unit_price, created_at, updated_at = row
-      invoice_item = InvoiceItem.create(id: id, item_id: item_id, invoice_id: invoice_id, quantity: quantity, unit_price: unit_price, created_at: created_at, updated_at: updated_at)
-      puts "invoice_item #{id} - #{invoice_item.errors.full_messages}" if invoice_item.errors.any?
+    CSV.foreach(invoice_items, headers: true) do |row|
+      invoice_item = InvoiceItem.create!(row.to_hash)
       invoice_items_counter += 1 if invoice_item.persisted?
     end
-    
     puts "Imported #{invoice_items_counter} invoice items"
+    
 
-    CSV.foreach(transactions) do |row|
-      id, invoice_id, credit_card_number, credit_card_expiration_date, result, created_at, updated_at = row
-      transaction = Transaction.create(id: id, invoice_id: invoice_id, credit_card_number: credit_card_card_number, credit_card_expiration_date: rand(000..999).to_s.rjust(3, "0"), result: result, created_at: created_at, updated_at: updated_at)
-      puts "#{id} - #{transaction.errors.full_messages}" if transaction.errors.any?
+    CSV.foreach(transactions, headers: true) do |row|
+      transaction = Transaction.create!(row.to_hash)
       transactions_counter += 1 if transaction.persisted?
     end
-
     puts "Imported #{transactions_counter} transactions"
+
 
   end
 end
