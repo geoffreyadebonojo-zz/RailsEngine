@@ -1,5 +1,3 @@
-# TODO This doesn't work and I don't know why
-
 class Api::V1::InvoiceItems::InvoiceItemSearchController < ApplicationController
 
   def show
