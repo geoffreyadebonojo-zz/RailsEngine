@@ -8,6 +8,9 @@ class Api::V1::InvoicesController < ApplicationController
     elsif params[:invoice_item_id]
       id = InvoiceItem.find(params[:invoice_item_id]).item_id
       render json: InvoiceSerializer.new(Invoice.find(id))
+    elsif params[:transaction_id]
+      id = Transaction.find(params[:transaction_id]).id
+      render json: InvoiceSerializer.new(Invoice.find(id))
     end
   end
 

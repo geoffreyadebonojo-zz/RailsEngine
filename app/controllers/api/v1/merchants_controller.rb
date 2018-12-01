@@ -8,7 +8,6 @@ class Api::V1::MerchantsController < ApplicationController
       render json: MerchantSerializer.new(Merchant.find(id))
     elsif params[:item_id]
       id = Item.find(params[:item_id]).merchant_id
-
       render json: MerchantSerializer.new(Merchant.find(id)) 
     end
   end
