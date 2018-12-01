@@ -1,7 +1,11 @@
 class Api::V1::ItemsController < ApplicationController
 
   def index
-    render json: ItemSerializer.new(Item.all)
+    if params.nil?
+      render json: ItemSerializer.new(Item.all)
+    elsif params["merchant_id"]
+      render json: ItemSerializer.new(Item.where(merchant_id: params["merchant_id"]))
+    end
   end
 
   def show
