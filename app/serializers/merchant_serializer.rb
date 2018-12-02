@@ -20,8 +20,8 @@ class MerchantSerializer
     merchant.invoices.where(status: "shipped").count
   end
 
-  attribute :total_revenue do |merchant|
-    merchant.total_revenue
-  end
+  # attribute :total_revenue do |merchant|
+  #   merchant.total_revenue
+  # end
 
 end

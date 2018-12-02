@@ -48,8 +48,8 @@ Rails.application.routes.draw do
 
 
       resources :invoice_items, only: [:index, :show] do
-        resources :invoices, only: [:index]
-        resources :items, only: [:index]
+        get '/item', to: 'invoice_items/item#show'
+        get '/invoice', to: 'invoice_items/invoice#show'
       end
 
       resources :customers, only: [:index, :show] do 
@@ -65,9 +65,10 @@ Rails.application.routes.draw do
       resources :invoices, only: [:index, :show] do
         resources :transactions, only: [:index]
         resources :invoice_items, only: [:index]
-        get '/customer', to: 'invoices/customer#show'
         resources :items, only: [:index]
-        resources :merchants, only: [:index]
+        
+        get '/customer', to: 'invoices/customer#show'
+        get '/merchant', to: 'invoices/merchant#show'
       end
 
 
