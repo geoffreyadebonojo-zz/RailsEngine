@@ -14,27 +14,27 @@
       <img src="./assets/0.10.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2018-12-02T11:28:45-07:00">2018-12-02T11:28:45-07:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2018-12-02T11:48:32-07:00">2018-12-02T11:48:32-07:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">95.15%</span></span>
+    (<span class="covered_percent"><span class="green">95.73%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.17
+         1.23
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>25</b> files in total.
-    <b>165</b> relevant lines. 
+    <b>164</b> relevant lines. 
     <span class="green"><b>157</b> lines covered</span> and
-    <span class="red"><b>8</b> lines missed </span>
+    <span class="red"><b>7</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -92,22 +92,22 @@
       
       <tr>
         <td class="strong"><a href="#25f6215ec547ae2d0dc7712d6faf96ebe4922404" class="src_link" title="app/models/item.rb">app/models/item.rb</a></td>
-        <td class="yellow strong">88.89 %</td>
+        <td class="red strong">77.78 %</td>
         <td>27</td>
         <td>9</td>
-        <td>8</td>
-        <td>1</td>
-        <td>0.9</td>
+        <td>7</td>
+        <td>2</td>
+        <td>0.8</td>
       </tr>
       
       <tr>
         <td class="strong"><a href="#6e7599b49f4be26a8ec4d9a6b96c93d8caef32bd" class="src_link" title="app/models/merchant.rb">app/models/merchant.rb</a></td>
-        <td class="red strong">66.67 %</td>
-        <td>41</td>
-        <td>12</td>
-        <td>8</td>
-        <td>4</td>
-        <td>0.7</td>
+        <td class="yellow strong">81.82 %</td>
+        <td>40</td>
+        <td>11</td>
+        <td>9</td>
+        <td>2</td>
+        <td>0.9</td>
       </tr>
       
       <tr>
@@ -277,7 +277,7 @@
         <td>6</td>
         <td>6</td>
         <td>0</td>
-        <td>1.5</td>
+        <td>3.0</td>
       </tr>
       
       <tr>
@@ -677,11 +677,11 @@
         <div class="source_table" id="25f6215ec547ae2d0dc7712d6faf96ebe4922404">
   <div class="header">
     <h3>app/models/item.rb</h3>
-    <h4><span class="yellow">88.89 %</span> covered</h4>
+    <h4><span class="red">77.78 %</span> covered</h4>
     <div>
       <b>9</b> relevant lines. 
-      <span class="green"><b>8</b> lines covered</span> and
-      <span class="red"><b>1</b> lines missed.</span>
+      <span class="green"><b>7</b> lines covered</span> and
+      <span class="red"><b>2</b> lines missed.</span>
     </div>
   </div>
   
@@ -784,8 +784,8 @@
           <code class="ruby">    .order(&quot;sold&quot;, &quot;date&quot;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="17">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="17">
+          
           
           <code class="ruby">    .last</code>
         </li>
@@ -858,11 +858,11 @@
         <div class="source_table" id="6e7599b49f4be26a8ec4d9a6b96c93d8caef32bd">
   <div class="header">
     <h3>app/models/merchant.rb</h3>
-    <h4><span class="red">66.67 %</span> covered</h4>
+    <h4><span class="yellow">81.82 %</span> covered</h4>
     <div>
-      <b>12</b> relevant lines. 
-      <span class="green"><b>8</b> lines covered</span> and
-      <span class="red"><b>4</b> lines missed.</span>
+      <b>11</b> relevant lines. 
+      <span class="green"><b>9</b> lines covered</span> and
+      <span class="red"><b>2</b> lines missed.</span>
     </div>
   </div>
   
@@ -1025,8 +1025,8 @@
           <code class="ruby">    .order(&quot;total_sold DESC&quot;)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="27">
-          
+        <li class="covered" data-hits="2" data-linenumber="27">
+          <span class="hits">2</span>
           
           <code class="ruby">    .limit(quantity)</code>
         </li>
@@ -1049,10 +1049,10 @@
           <code class="ruby">  def self.revenue(date)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="31">
+        <li class="never" data-hits="" data-linenumber="31">
           
           
-          <code class="ruby">    x= joins(invoices: [:invoice_items, :transactions])</code>
+          <code class="ruby">    joins(invoices: [:invoice_items, :transactions])</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="32">
@@ -1079,37 +1079,31 @@
           <code class="ruby">    SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue&#39;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="36">
+        <li class="missed" data-hits="0" data-linenumber="36">
           
           
           <code class="ruby">    .group(&quot;merchants.id&quot;)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="37">
-          
-          
-          <code class="ruby">    binding.pry</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="38">
+        <li class="never" data-hits="" data-linenumber="37">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="39">
+        <li class="never" data-hits="" data-linenumber="38">
           
           
           <code class="ruby">  </code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="40">
+        <li class="never" data-hits="" data-linenumber="39">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="41">
+        <li class="never" data-hits="" data-linenumber="40">
           
           
           <code class="ruby">end</code>
@@ -3064,20 +3058,20 @@
           <code class="ruby">    merchant { create(:merchant) }</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="4">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="5" data-linenumber="4">
+          <span class="hits">5</span>
           
           <code class="ruby">    name { &quot;Any Ol&#39; Item&quot; }</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="5">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="5" data-linenumber="5">
+          <span class="hits">5</span>
           
           <code class="ruby">    description { &quot;It&#39;s just your run-of-the-mill item&quot; }</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="6">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="5" data-linenumber="6">
+          <span class="hits">5</span>
           
           <code class="ruby">    unit_price { 1355 }</code>
         </li>

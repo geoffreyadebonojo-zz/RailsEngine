@@ -28,13 +28,12 @@ class Merchant < ApplicationRecord
   end
 
   def self.revenue(date)
-    x= joins(invoices: [:invoice_items, :transactions])
+    joins(invoices: [:invoice_items, :transactions])
     .where("transactions.result = ?", "success")
     .where("invoices.created_at = ?", date)
     .select('merchants.*, 
     SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue')
     .group("merchants.id")
-    binding.pry
   end
   
 
