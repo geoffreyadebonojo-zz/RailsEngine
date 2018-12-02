@@ -26,7 +26,8 @@ describe Item, type: :model do
     transaction3 = create(:transaction, invoice: invoice3, result: 'success')
     transaction4 = create(:transaction, invoice: invoice4, result: 'success')
 
-    expect(Item.best_day(item1.id)).to eq(invoice4.created_at.to_date)
+    
+    expect(Item.best_day(item1.id).date).to eq(invoice4.created_at.to_date)
 
   end
 

@@ -11,9 +11,17 @@ class Item < ApplicationRecord
     joins(invoices: [:transactions])
     .where("transactions.result = ?", "success")
     .where("invoice_items.item_id = ?", item_id)
-    .select("cast(invoices.created_at AS date) AS date, sum(invoice_items.quantity) AS sold")
-    .group("date")
+    .select("items.*, cast(invoices.created_at AS date) AS date, sum(invoice_items.quantity) AS sold")
+    .group("date", "items.id")
     .order("sold", "date")
-    .last.date
+    .last
+  end
+
+  def by_revenue(quantity)
+    joins(:invoice_items, invoices: [:transactions])
+    .where("transactions.result = ?", "success")
+    .select("items.*, sum(invoice_items.quantity * invoice_items.unit_price)")
+    .group("items.id").order("sum DESC")
+    .limit(quantity)
   end
 end
