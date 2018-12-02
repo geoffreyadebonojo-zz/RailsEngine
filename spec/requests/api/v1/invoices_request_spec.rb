@@ -8,7 +8,7 @@ describe "Invoices API" do
 
     expect(response).to be_successful
 
-    invoices = JSON.parse(response.body)
+    invoices = JSON.parse(response.body)["data"]
 
     expect(invoices.count).to eq(3)
   end
@@ -18,49 +18,10 @@ describe "Invoices API" do
 
     get "/api/v1/invoices/#{id}"
 
-    invoice = JSON.parse(response.body)
+    invoice = JSON.parse(response.body)["data"]
 
     expect(response).to be_successful
-    expect(invoice["id"]).to eq(id)
-  end
-
-  it "can create a new invoice" do
-    invoice_params = {status: "shipped"}
-
-    post "/api/v1/invoices", params: {invoice: invoice_params}
-  
-    invoice = Invoice.last
-
-    expect(response).to be_successful
-    expect(invoice.status).to eq(invoice_params[:status])
-  end
-
-  it "can update an existing item" do
-    id = create(:invoice).id
-    previous_status = Invoice.last.status
-    invoice_params = { status: "cancelled"}
-
-    put "/api/v1/invoices/#{id}", params: {invoice: invoice_params}
-    invoice = Invoice.find_by(id: id)
-    
-    expect(response).to be_successful
-    
-    expect(invoice.status).to_not eq(previous_status)
-    expect(invoice.status).to eq(invoice_params[:status])
-  end
-
-  it "can destroy an existing item" do
-    invoice = create(:invoice)
-
-    expect(Invoice.count).to eq(1)
-
-    delete "/api/v1/invoices/#{invoice.id}"
-
-    expect(response).to be_successful
-
-    expect(Invoice.count).to eq(0)
-
-    expect{Invoice.find(invoice.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    expect(invoice["id"]).to eq(id.to_s)
   end
 
 end

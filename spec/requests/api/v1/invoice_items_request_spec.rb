@@ -9,7 +9,7 @@ describe "InvoiceItems API" do
 
     expect(response).to be_successful
     
-    body = JSON.parse(response.body)
+    body = JSON.parse(response.body)["data"]
     
     expect(body.count).to eq(3)
   end
@@ -19,58 +19,10 @@ describe "InvoiceItems API" do
 
     get "/api/v1/invoice_items/#{id}"
 
-    invoice_item = JSON.parse(response.body)
-
+    invoice_item = JSON.parse(response.body)["data"]["attributes"]
     expect(response).to be_successful
     expect(invoice_item["quantity"]).to eq(1)
     expect(invoice_item["unit_price"]).to eq(100)    
-  end
-
-  it "can create an item" do
-    invoice_item_params = { quantity: 1, unit_price: 100 }
-
-    post "/api/v1/invoice_items", params: {invoice_item: invoice_item_params}
-
-    invoice_item = InvoiceItem.last
-
-    expect(response).to be_successful
-
-    expect(invoice_item.quantity).to eq(invoice_item_params[:quantity])
-    expect(invoice_item.unit_price).to eq(invoice_item_params[:unit_price])
-
-  end
-
-  it "can update an existing invoice item" do
-    id = create(:invoice_item).id
-    previous_quantity = InvoiceItem.last.quantity
-    previous_unit_price = InvoiceItem.last.unit_price
-
-    invoice_item_params = {quantity: 3, unit_price: 200}
-
-    put "/api/v1/invoice_items/#{id}", params: {invoice_item: invoice_item_params}
-
-    ii = InvoiceItem.find_by(id: id)
-
-    expect(response).to be_successful
-
-    expect(ii.quantity).to_not eq(previous_quantity)
-    expect(ii.unit_price).to_not eq(previous_unit_price)
-
-  end
-
-  it "can destroy an existing resource" do
-    invoice_item = create(:invoice_item)
-
-    expect(InvoiceItem.count).to eq(1)
-
-    delete "/api/v1/invoice_items/#{invoice_item.id}"
-
-    expect(response).to be_successful
-
-    expect(InvoiceItem.count).to eq(0)
-
-    expect{ InvoiceItem.find(invoice_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
-
   end
 
 end

@@ -9,8 +9,9 @@ describe "Items API" do
 
     expect(response).to be_successful
 
-    items = JSON.parse(response.body)
-
+    body = JSON.parse(response.body)
+    items = body["data"]
+    
     expect(items.count).to eq(3)
   end
 
@@ -20,44 +21,32 @@ describe "Items API" do
 
     get "/api/v1/items/#{id}"
 
-    item = JSON.parse(response.body)
-
+    body = JSON.parse(response.body)
+    item = body["data"]
     expect(response).to be_successful
-    expect(item["id"]).to eq(id)
+    expect(item["id"]).to eq(id.to_s)
   end
 
-  it "can create a new item" do
-    item_params = {name: "Saw", description: "Its a scary flick"}
+  it "returns item best day" do
+    merchant_1 = create(:merchant, name: 'Andy')
+    merchant_2 = create(:merchant, name: 'Bob')
+    merchant_3 = create(:merchant, name: 'Charles')
+    merchant_4 = create(:merchant, name: 'Dave')
+    invoice_1 = create(:invoice, merchant: merchant_1, created_at: "2018-08-01 09:00:00 UTC")
+    invoice_2 = create(:invoice, merchant: merchant_2, created_at: "2018-08-02 09:00:00 UTC")
+    invoice_3 = create(:invoice, merchant: merchant_3, created_at: "2018-08-03 09:00:00 UTC")
+    invoice_4 = create(:invoice, merchant: merchant_4, created_at: "2018-08-04 09:00:00 UTC")
+    item_1 = create(:item, merchant: merchant_1)
+    invoice_item1 = create(:invoice_item, quantity: 1, unit_price: 100, invoice: invoice_1, item: item_1)
+    invoice_item2 = create(:invoice_item, quantity: 5, unit_price: 200, invoice: invoice_2, item: item_1)
+    invoice_item3 = create(:invoice_item, quantity: 10, unit_price: 300, invoice: invoice_3, item: item_1)
+    invoice_item4 = create(:invoice_item, quantity: 10, unit_price: 400, invoice: invoice_4, item: item_1)
+    transaction_1 = create(:transaction, invoice: invoice_1, result: 'success')
+    transaction_2 = create(:transaction, invoice: invoice_2, result: 'success')
+    transaction_3 = create(:transaction, invoice: invoice_3, result: 'success')
+    transaction_4 = create(:transaction, invoice: invoice_4, result: 'success')
 
-    post "/api/v1/items", params: {item: item_params}
-    item = Item.last
-
-    expect(response).to be_successful
-    expect(item.name).to eq(item_params[:name])
-  end
-
-  it "can update an existing item" do
-    id = create(:item).id
-    previous_name = Item.last.name
-    item_params = { name: "Hammer" } 
-    
-    put "/api/v1/items/#{id}", params: {item: item_params}
-    item = Item.find_by(id: id)
-
-    expect(response).to be_successful
-    expect(item.name).to_not eq(previous_name)
-    expect(item.name).to eq("Hammer")
-  end
-
-  it "can destroy an item" do
-    item = create(:item)
-
-    expect(Item.count).to eq(1)
-
-    delete "/api/v1/items/#{item.id}"
-
-    expect(response).to be_successful
-    expect(Item.count).to eq(0)
-    expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    best_day = Item.best_day(item_1.id).date
+    expect(best_day).to eq(invoice_4.created_at.to_date)
   end
 end
