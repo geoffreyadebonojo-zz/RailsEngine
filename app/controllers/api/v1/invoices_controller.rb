@@ -8,22 +8,4 @@ class Api::V1::InvoicesController < ApplicationController
     render json: InvoiceSerializer.new(Invoice.find(params[:id]))
   end
 
-  def create
-    render json: Invoice.create(invoice_params)
-  end
-
-  def update
-    render json: Invoice.update(params[:id], invoice_params)
-  end
-
-  def destroy
-    Invoice.delete(params[:id])
-  end
-
-  private
-
-  def invoice_params
-    params.require(:invoice).permit(:status)
-  end
-
 end

@@ -17,11 +17,15 @@ class Item < ApplicationRecord
     .last
   end
 
-  def by_revenue(quantity)
+  def self.most_revenue(quantity)
     joins(:invoice_items, invoices: [:transactions])
     .where("transactions.result = ?", "success")
     .select("items.*, sum(invoice_items.quantity * invoice_items.unit_price)")
     .group("items.id").order("sum DESC")
     .limit(quantity)
   end
+
+  def self.most_items(quantity)
+  end
+
 end

@@ -27,6 +27,7 @@ class Merchant < ApplicationRecord
     .limit(quantity)
   end
 
+  # TODO! Send total
   def self.revenue(date)
     joins(invoices: [:invoice_items, :transactions])
     .where("transactions.result = ?", "success")

@@ -27,14 +27,13 @@ describe "Merchant API" do
     create(:merchant, name: "Mart")
 
     expect(Merchant.count).to eq(1)
-
+    
     get "/api/v1/merchants/find?name=Mart"
-
-    merchant = JSON.parse(response.body)
-
+    
     expect(response).to be_successful
+    merchant = JSON.parse(response.body)
     expect(merchant.count).to eq(1)
-    expect(merchant["data"].first["attributes"]["name"]).to eq("Mart")
+    expect(merchant["data"]["attributes"]["name"]).to eq("Mart")
   end
 
   it "can find merchant by id" do
@@ -47,23 +46,20 @@ describe "Merchant API" do
     data = JSON.parse(response.body)["data"]
 
     expect(response).to be_successful
-    expect(data.count).to eq(1)
-    expect(data.first["id"]).to eq(merchant.id.to_s)
+    expect(data["id"]).to eq(merchant.id.to_s)
   end
 
   it "can find merchant by created_at" do
-    merchant = create(:merchant, name: "Mart", created_at: "2012-03-27T14:53:59.000Z")
-
-    expect(Merchant.count).to eq(1)
+    merchant = create(:merchant, name: "1Mart", created_at: "2012-03-27T14:53:59.000Z")
+    merchant = create(:merchant, name: "2Mart", created_at: "2012-03-28T14:53:59.000Z")
 
     get "/api/v1/merchants/find?created_at=#{merchant.created_at}"
 
     data = JSON.parse(response.body)["data"]
 
     expect(response).to be_successful
-    expect(data.count).to eq(1)
-    expect(data.first["id"]).to eq(merchant.id.to_s)
-    expect(data.first["attributes"]["created_at"]).to eq("2012-03-27T14:53:59.000Z")    
+    expect(data["id"]).to eq(merchant.id.to_s)
+        
   end
 
   it "can find merchant by updated_at" do
@@ -75,9 +71,8 @@ describe "Merchant API" do
 
     data = JSON.parse(response.body)["data"]
     expect(response).to be_successful
-    expect(data.count).to eq(1)
-    expect(data.first["id"]).to eq(merchant.id.to_s)
-    expect(data.first["attributes"]["updated_at"]).to eq("2012-03-27T14:53:59.000Z")
+    expect(data["id"]).to eq(merchant.id.to_s)
+    expect(data["attributes"]["updated_at"]).to eq("2012-03-27T14:53:59.000Z")
   end
 
   it "returns merchants with most revenue" do
@@ -110,8 +105,8 @@ describe "Merchant API" do
     expect(response).to be_successful
 
     result = JSON.parse(response.body)
-    
-    expect(result["data".count]).to 
+    expect(result["data"].count).to eq(2)
+    expect(result["data"].first["id"]).to eq(merchant4.id.to_s)
 
   end
 
