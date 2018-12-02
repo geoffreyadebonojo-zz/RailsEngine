@@ -1,15 +1,7 @@
 class Api::V1::MerchantsController < ApplicationController
   
   def index
-    if params.nil? && params[:invoice_id].nil? && params[:item_id].nil?
-      render json: MerchantSerializer.new(Merchant.all)
-    elsif params[:invoice_id]
-      id = Invoice.find(params[:invoice_id]).merchant_id
-      render json: MerchantSerializer.new(Merchant.find(id))
-    elsif params[:item_id]
-      id = Item.find(params[:item_id]).merchant_id
-      render json: MerchantSerializer.new(Merchant.find(id)) 
-    end
+    render json: MerchantSerializer.new(Merchant.all)
   end
 
   def show
