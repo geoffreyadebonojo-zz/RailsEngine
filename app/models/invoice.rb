@@ -1,5 +1,7 @@
 class Invoice < ApplicationRecord
 
+  validates_presence_of :status
+
   belongs_to :customer
   belongs_to :merchant
   
@@ -7,7 +9,5 @@ class Invoice < ApplicationRecord
   has_many :items, through: :invoice_items
 
   has_many :transactions
-
-
 
 end

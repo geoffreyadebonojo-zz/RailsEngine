@@ -5,8 +5,4 @@ class MerchantSerializer
   has_many :items
   has_many :invoices
 
-  attribute :item_count do |merchant|
-    merchant.items.count
-  end
-
 end

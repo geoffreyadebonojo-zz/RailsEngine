@@ -1,5 +1,7 @@
 class InvoiceItem < ApplicationRecord
 
+  validates_presence_of :quantity, :unit_price
+
   belongs_to :invoice
   belongs_to :item
 
@@ -18,7 +20,5 @@ class InvoiceItem < ApplicationRecord
       .order("sum(quantity * unit_price)")
       .limit(5)
   end
-  
-  # scope :total, -> {InvoiceItems.sum(quantity * unit_price)}
   
 end

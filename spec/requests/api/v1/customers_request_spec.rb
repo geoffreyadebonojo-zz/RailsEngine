@@ -25,44 +25,4 @@ describe "Customers API" do
     expect(customer["data"]["id"]).to eq(id.to_s)
   end
 
-  xit "can create a new customer" do
-    customer_params = {first_name: "Mary", last_name: "Sue"}
-
-    post "/api/v1/customers", params: {customer: customer_params}
-    
-    customer = Customer.last
-    expect(customer.first_name).to eq ("Mary")
-    expect(customer.last_name).to eq ("Sue")
-  end
-
-  xit "can update an existing customer" do
-    customer_params = {first_name: "James", last_name: "Bond"}
-
-    id = create(:customer).id
-    previous_first_name = Customer.last.first_name
-    previous_last_name = Customer.last.last_name
-
-    put "/api/v1/customers/#{id}", params: {customer: customer_params}
-    
-    customer = Customer.find_by(id: id)
-
-    expect(response).to be_successful
-
-    expect(customer.first_name).to_not eq(previous_first_name)
-    expect(customer.first_name).to eq("James")
-
-    expect(customer.last_name).to_not eq(previous_last_name)
-    expect(customer.last_name).to eq("Bond")
-  end
-
-  xit "can destroy a customer" do
-    id = create(:customer).id
-    expect(Customer.count).to eq(1)
-    
-    delete "/api/v1/customers/#{id}"
-    expect(Customer.count).to eq(0)
-    
-  end
-
-
 end

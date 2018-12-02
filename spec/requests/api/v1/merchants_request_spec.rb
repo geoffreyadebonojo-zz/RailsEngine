@@ -23,42 +23,6 @@ describe "Merchant API" do
     expect(merchant["id"]).to eq(id.to_s)
   end
 
-  xit "can create a new merchant" do
-    merchant_params = {name: "McMart" }
-
-    post "/api/v1/merchants", params: {merchant: merchant_params}
-    
-    merchant = Merchant.last
-
-    expect(merchant.name).to eq("McMart")
-  end
-
-  xit "can update an existing merchant" do
-    merchant_params = {name: "McMart"}
-
-    id = create(:merchant).id
-    previous_name = Merchant.last.name
-
-    put "/api/v1/merchants/#{id}", params: {merchant: merchant_params}
-    
-    merchant = Merchant.find_by(id: id)
-
-    expect(response).to be_successful
-
-    expect(merchant.name).to_not eq(previous_name)
-    expect(merchant.name).to eq("McMart")
-
-  end
-
-  xit "can destroy a merchant" do
-    id = create(:merchant).id
-    expect(Merchant.count).to eq(1)
-    
-    delete "/api/v1/merchants/#{id}"
-    expect(Merchant.count).to eq(0)
-    
-  end
-
   it "can find a merchant by name" do
     create(:merchant, name: "Mart")
 
