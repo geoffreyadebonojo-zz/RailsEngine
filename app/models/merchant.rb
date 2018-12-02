@@ -27,15 +27,11 @@ class Merchant < ApplicationRecord
     .limit(quantity)
   end
 
-  # TODO! Send total
-  def self.revenue(date)
-    joins(invoices: [:invoice_items, :transactions])
-    .where("transactions.result = ?", "success")
-    .where("invoices.created_at = ?", date)
-    .select('merchants.*, 
-    SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue')
+  def self.revenue(date) 
+    x = joins(invoices: [:invoice_items, :transactions])
     .group("merchants.id")
+    .select('merchants.name, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+    .where("DATE(invoices.created_at) = ?", date)
   end
-  
 
 end

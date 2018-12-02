@@ -87,7 +87,7 @@ describe Merchant, type: :model do
     transaction_4 = create(:transaction, invoice: invoice_4, result: 'success')
 
     # TODO! Strip time
-    expect(Merchant.revenue("2018-08-01 09:00:00 UTC")).to eq([merchant_1, merchant_2, merchant_3])
+    expect(Merchant.revenue("2018-08-01 09:00:00 UTC").first).to eq([merchant_1, merchant_2, merchant_3])
     expect(Merchant.revenue("2018-08-02 09:00:00 UTC")).to eq([merchant_4])
   end
 

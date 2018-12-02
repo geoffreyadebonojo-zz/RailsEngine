@@ -4,4 +4,8 @@ class Customer < ApplicationRecord
 
   has_many :invoices
   
+  def self.favorite_merchant
+    #! TODO Write me
+  end
+
 end
