@@ -27,7 +27,11 @@ class Item < ApplicationRecord
   end
 
   def self.most_items(quantity)
-    #! TODO Write me
+    # Ranked by total number sold
+    joins(:invoices).select("items.*, SUM(invoice_items.quantity) AS quantity_sold")
+    .group("items.id")
+    .order("quantity_sold DESC")
+    .limit(quantity)
   end
 
 end
