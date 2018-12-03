@@ -27,7 +27,7 @@ describe "Items API" do
     expect(item["id"]).to eq(id.to_s)
   end
 
-  it "returns item best day" do
+  it "returns an item's best day" do
     merchant_1 = create(:merchant, name: 'Andy')
     merchant_2 = create(:merchant, name: 'Bob')
     merchant_3 = create(:merchant, name: 'Charles')
@@ -46,7 +46,7 @@ describe "Items API" do
     transaction_3 = create(:transaction, invoice: invoice_3, result: 'success')
     transaction_4 = create(:transaction, invoice: invoice_4, result: 'success')
 
-    best_day = Item.best_day(item_1.id).date
+    best_day = Item.best_day(item_1.id)
     expect(best_day).to eq(invoice_4.created_at.to_date)
   end
 end
