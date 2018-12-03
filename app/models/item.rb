@@ -7,7 +7,6 @@ class Item < ApplicationRecord
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
 
-  # TODO Not Working properly 
   def self.best_day(item_id)
     joins(invoices: [:transactions])
     .where("transactions.result = ?", "success")
