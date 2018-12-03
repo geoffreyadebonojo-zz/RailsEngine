@@ -30,7 +30,7 @@ class Merchant < ApplicationRecord
   def self.revenue(date) 
     x = joins(invoices: [:invoice_items, :transactions])
     .group("merchants.id")
-    .select('merchants.name, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+    .select('merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
     .where("DATE(invoices.created_at) = ?", date)
   end
 
